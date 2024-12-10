@@ -7,8 +7,8 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 
 # Load FAISS index and data
-index = faiss.read_index("faiss_index.bin")
-chunks_df = pd.read_csv("chunks_data.csv")
+index = faiss.read_index("../../public/dataset/faiss_index.bin")
+chunks_df = pd.read_csv("../../public/dataset/chunks_data.csv")
 embedding_model = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 
 # Initialize FastAPI
@@ -56,7 +56,4 @@ def search(query_request: QueryRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Example endpoint for health check
-@app.get("/ping")
-def ping():
-    return {"message": "API is running!"}
+
