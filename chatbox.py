@@ -25,7 +25,7 @@ def query_api(query):
     return "Lỗi khi kết nối đến API."
 
 # Hộp chat người dùng nhập vào
-user_input = st.chat_input("Nhập câu hỏi của bạn...")
+user_input = st.chat_input("Nhập câu hỏi của bạn nha...")
 if user_input:
     # Hiển thị tin nhắn người dùng  
     st.chat_message("user").markdown(user_input)
