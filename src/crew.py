@@ -5,43 +5,26 @@ import os
 load_dotenv()
 
 @CrewBase
-class LatestAiDevelopmentCrew():
-	"""LatestAiDevelopment crew"""
+class HealthChatbot():
+	"""Health_chatbot crew"""
 	agents_config = "config/agents.yaml"
 	tasks_config = "config/tasks.yaml"
 	
 	def __init__(self) -> None:
-		self.groq_llm = LLM(model = "groq/mixtral-8x7b-32768", api_key=os.getenv("GROQ_API_KEY"))
+		self.groq_llm = LLM(model = "groq/gemma-7b-it", api_key=os.getenv("GROQ_API_KEY"), max_tokens=100)
 		
 	@agent
-	def researcher(self) -> Agent:
+	def healthier_advice(self) -> Agent:
 		return Agent(
-			config=self.agents_config['researcher'],
+			config=self.agents_config['healthier_advice'],
 			verbose=True,
 			llm = self.groq_llm,
-		)
-
-	@agent
-	def reporting_analyst(self) -> Agent:
-		return Agent(
-			config=self.agents_config['reporting_analyst'],
-			verbose=True,
-			llm = self.groq_llm,
-			# tools = [SEC10QTool("AMZN")]
-			
 		)
 
 	@task
 	def research_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['research_task'],
-		)
-
-	@task
-	def reporting_task(self) -> Task:
-		return Task(
-			config=self.tasks_config['reporting_task'],
-			output_file='report.md'
 		)
 
 	@crew

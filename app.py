@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+from src.crew import HealthChatbot
 
 # Tiêu đề ứng dụng
 st.title("Chatbot Bệnh Viện Nhi 🚑🤖")
@@ -19,8 +20,15 @@ def query_api(query):
     response = requests.post(url, json={"query": query})
     if response.status_code == 200:
         results = response.json().get("results", [])
-        if results:
-            return "\n".join([f"- {res['text']}" for res in results])
+        words_list = [res['text'] for res in results]
+        topic_string = " ".join(words_list)
+        result = {
+            "topic": topic_string
+        }
+        result_crew = HealthChatbot().crew().kickoff(inputs = result)
+        print(result_crew)
+        if result_crew:
+            return result_crew
         return "Không tìm thấy thông tin phù hợp."
     return "Lỗi khi kết nối đến API."
 
