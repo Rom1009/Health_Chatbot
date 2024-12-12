@@ -21,7 +21,7 @@ class QueryRequest(BaseModel):
 
 class QueryResponse(BaseModel):
     query: str
-    results: List[dict]
+    # results: List[dict]
 
 # Helper function to search FAISS index
 def search_faiss_index(query: str, top_k: int):
@@ -45,15 +45,13 @@ def search_faiss_index(query: str, top_k: int):
 def search(query_request: QueryRequest):
     try:
         query = query_request.query
-        top_k = query_request.top_k
+        # top_k = query_request.top_k
         
         # Retrieve results
-        results = search_faiss_index(query, top_k)
-        if not results:
-            raise HTTPException(status_code=404, detail="No relevant documents found.")
+        # results = search_faiss_index(query, top_k)
+        # if not results:
+            # raise HTTPException(status_code=404, detail="No relevant documents found.")
         
-        return QueryResponse(query=query, results=results)
+        return QueryResponse(query=query)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-

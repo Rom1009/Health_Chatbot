@@ -4,7 +4,7 @@ import faiss
 import numpy as np
 
 # Đọc file dữ liệu
-file_path = "benhviennhi_articles.csv"
+file_path = "../../public/dataset/benhviennhi_articles.csv"
 df = pd.read_csv(file_path)
 
 # Chia nhỏ văn bản thành các chunks
