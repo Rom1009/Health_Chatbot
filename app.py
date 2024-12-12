@@ -3,7 +3,7 @@ import requests
 from src.crew import HealthChatbot
 
 # Tiêu đề ứng dụng
-st.title("Chatbot Bệnh Viện Nhi 🚑🤖")
+st.title("Chatbot health children 🚑🤖")
 
 # Hiển thị lịch sử hội thoại
 if "messages" not in st.session_state:
@@ -19,14 +19,13 @@ def query_api(query):
     url = "http://127.0.0.1:8000/search/"  # Endpoint for FastAPI
     response = requests.post(url, json={"query": query})
     if response.status_code == 200:
-        results = response.json().get("results", [])
-        words_list = [res['text'] for res in results]
-        topic_string = " ".join(words_list)
+        query = response.json().get("query", [])
+        # words_list = [res['text'] for res in results]
+        # topic_string = " ".join(words_list)
         result = {
-            "topic": topic_string
+            "topic": query
         }
         result_crew = HealthChatbot().crew().kickoff(inputs = result)
-        print(result_crew)
         if result_crew:
             return result_crew
         return "Không tìm thấy thông tin phù hợp."
