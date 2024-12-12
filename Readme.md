@@ -8,9 +8,7 @@ Health Chatbot là một ứng dụng hỗ trợ người dùng cung cấp thôn
 
 Trước khi bắt đầu, đảm bảo rằng hệ thống của bạn đáp ứng các yêu cầu sau:
 
-- **Python**: Phiên bản `>=3.10, <=3.13`
-
-Clone website 
+1. Clone website 
 ```bash
     git clone https://github.com/Rom1009/Health_Chatbox.git
 ```
