@@ -1,0 +1,83 @@
+/Giới thiệu (Slide 1)
+Xin chào thầy và các bạn, hôm nay em đại diện nhóm thuyết trình về chủ đề nhóm em làm là chatbot hỡ trợ
+sức khỏe cho trẻ em dưới 18 tuổi
+
+Slide 2
+
+/Tổng quan nội dung làm. (Slide 3)
+Đầu tiên đề hiểu rõ hơn về bài làm thì em sẽ sơ lược về quá trình triền khai một ứng dụng chatbot tụi em làm. 
+Đầu tiên, là em sẽ lấy dữ liệu về từ website, youtube, pdf hay 1 nguồn uy tín nào đó về chủ đề sức khỏe trẻ em. 
+Thứ hai, xử lý data 
+Thứ ba, áp dụng RAG gồm retrievel and generation (retrievel là sẽ query từ người dùng và duyệt trong bộ data để trả kết quả. Còn
+generation từ câu query này đưa ra câu trả lời logic)
+Trong bước thứ 3 ở giai đoạn generation tụi em cũng áp dụng 3 kỹ thuật prompt khác nhau cho 3 agent và task lần lượt là heath advice,
+symptom checker và life style health coach 
+Cuối cùng, là xây dựng website 
+
+/ Thu thập dữ liệu (Slide4)
+Như đã đề cập ở trên, em thu thập chính là pdf và website bệnh viện nhi đồng
+
+/ Xử lý dữ liệu (Slide 5)
+Tiếp đến xử lý dữ liệu là quá trình em sẽ gom lại các đoạn văn hợp lý, và xóa các dữ liệu lỗi. 
+Ngoài ra, còn biến đổi từ dữ liệu chữ thành số thông qua model có sẵn của Microsoft (paraphrase-multilingual-MiniLM-L12-v2) với tác vụ
+là biến dữ liệu dạng chữ thành các vector. 
+Sau đó, áp dụng RAG, ở đây em có hai loại dữ liệu là website sau khi clone và pdf, 
+
+(Slide 6 và 7)
+Thứ nhất, Retrievel 
+- với website em dùng FaissIndex với tác dụng biến đổi đoạn 
+query người dùng thành word - embedding và search vector này trong bộ data đã xử lý và trả về 1 câu query.  
+
+(Slide 8)
+- Với PDf em dùng PDFSearchTools của CrewAI với nhiệm vụ cũng tương tự như website nhưng model để đọc là gemma2-9b và 
+embedding là BAAI/bge-small-en-v1.5 of HuggingFace.
+
+(Slide 9)
+/Kết hợp với CrewAI
+
+(Slide 10)
+Trong crewAI có 3 thứ cần làm rõ là Agent, task và crew
+Agent là gì? 
+Agent là người sẽ thực thi nhiệm vụ gồm các tham số cần có là:
+- Role: Vai trò agent 
+- Goal: mục tiêu của agent
+- Backstory: Có kinh nghiệm trong role 
+- LLM: Các mô hình llm khác nhau 
+Ngoài ra, còn có tools là phương pháp retrievel 
+
+Task là gì?
+Task là nhiệm vụ agent sẽ thực thi gồm các tham số cần có là: 
+- Description: Mô tả nhiệm vụ 
+- Expected output: Mong muốn đầu ra sao ngắn gọn hay dài hay bằng tiếng anh hay việt, ....
+- agent: người thực thi
+- output_file: kết quả sau khi nhận được 
+
+(Side 11)
+Ở bước cuối này em có tạo ra 3 agents và mỗi agent sẽ áp dụng 1 kỹ thuật prompt engineering khác nhau 
+Em áp dụng các kỹ thuật lần lượt là: Zero-short prompting, Few-short prompting, Instruction-Based prompting
+Zero-short prompting 
+khái niệm:  Đây là kỹ thuật yêu cầu mô hình thực hiện một nhiệm vụ mà không cung cấp bất kỳ ví dụ mẫu nào. 
+Mô hình dựa hoàn toàn vào prompt (câu lệnh hoặc mô tả nhiệm vụ) để hiểu và thực hiện.
+
+cách tụi em áp dụng vô bài
+- phù hợp cho những Agent và Task xử lý các câu hỏi chung mà không cần bối cảnh cụ thể.
+
+Few-short prompting:
+khái niệm:  Cung cấp một số ví dụ mẫu (examples) trong prompt để giúp mô hình hiểu cách thực hiện nhiệm vụ trước khi yêu cầu giải quyết.
+
+các tụi em áp dụng vô bài
+- giả định rằng Task có thể dựa vào các ví dụ mẫu mà hệ thống đã được cung cấp qua các phần huấn luyện trước.
+
+Instruction-Based prompting: 
+khái niệm: Mô hình được cung cấp các hướng dẫn cụ thể (instruction) về cách thực hiện nhiệm vụ. 
+Không cần cung cấp ví dụ, nhưng hướng dẫn chi tiết giúp mô hình hiểu nhiệm vụ tốt hơn.
+
+cách áp dụng vô bài:
+- Hướng dẫn Agent thực hiện nhiệm vụ một cách rõ ràng thông qua các chỉ dẫn trong Task Description.
+
+(Slide 12)
+Với generation thì em dùng model gemma-7b 
+
+(Slide 14 - hết)
+/Streamlit website
+em áp dụng fastapi để lấy kết quả từ frontend sau đó đưa vô trình tự của Rag và nhận lại được kết quả. 
