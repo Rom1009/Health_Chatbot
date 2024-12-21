@@ -1,31 +1,25 @@
+# symptom_specialist_task:
+#   description: >
+#     Analyze {topic} user symptoms and respond based on similar sample cases.
+#   expected_output: >
+#     A detailed answer based on similar sample scenarios is stored previously. 
+    
+#   agent: symptom_specialist
+
+# lifestyle_health_coach_task:
+#   description: >
+#     Based on  questions, provide detailed guidance on how to improve lifestyle or solve health problems.
+#   expected_output: >
+#     A list of specific steps or a clear, easy-to-understand guide.
+    
+#   agent: lifestyle_health_coach
+
 health_advisor_task:
   description: >
     Answer {topic} health questions without consulting previous information
   expected_output: >
-    Answers question are direct, to the point, and do not include unnecessary information. 
-    "The content is at least 500 words.""
+    Answers {topic} question are direct, to the point, and do not include unnecessary information. 
+    "The content is at least 200 words.""
     
   agent: healthier_advice
-  output_file: report.md
-
-
-symptom_specialist_task:
-  description: >
-    Analyze {topic} user symptoms and respond based on similar sample cases.
-  expected_output: >
-    A detailed answer based on similar sample scenarios is stored previously. 
-    "The content is at least 500 words.""
-    
-  agent: symptom_specialist
-  output_file: report.md
-
-
-lifestyle_health_coach_task:
-  description: >
-    Based on {topic} questions, provide detailed guidance on how to improve lifestyle or solve health problems.
-  expected_output: >
-    A list of specific steps or a clear, easy-to-understand guide.
-    "The content is at least 500 words.""
-    
-  agent: lifestyle_health_coach
   output_file: report.md

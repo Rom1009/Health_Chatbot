@@ -20,8 +20,6 @@ def query_api(query):
     response = requests.post(url, json={"query": query})
     if response.status_code == 200:
         query = response.json().get("query", [])
-        # words_list = [res['text'] for res in results]
-        # topic_string = " ".join(words_list)
         result = {
             "topic": query
         }
