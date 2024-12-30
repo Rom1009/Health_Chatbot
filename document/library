@@ -1,0 +1,3 @@
+pip install -qU wandb weave
+pip install -qU llama-index
+pip install -qU llama-index-embeddings-huggingface llama-index-llms-groq

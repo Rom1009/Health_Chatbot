@@ -1,1 +1,1 @@
-If your 8-month-old child often has a fever, sometimes as high as 38.5 to 39 degrees, it's essential to monitor the child's condition closely. For infants, especially at this age, it's
+Tiền căn bệnh thấp tim thường bao gồm các triệu chứng như đau ngực, trống ngực, suy tim, sốt hoặc đột quỵ liên quan tới nhiễm trùng của van tim bị tổn thương, khó thở khi gắng sức hay khi xúc động, ngất xỉu, đau đầu, sưng chân, nhịp tim bất thường. Nếu bạn hoặc người thân có những triệu chứng này, nên đến bệnh viện để được kiểm tra và điều trị kịp thời.

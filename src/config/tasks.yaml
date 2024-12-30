@@ -16,10 +16,11 @@
 
 health_advisor_task:
   description: >
-    Answer {topic} health questions without consulting previous information
+    {topic} trở nên chi tiết hơn 
   expected_output: >
-    Answers {topic} question are direct, to the point, and do not include unnecessary information. 
-    "The content is at least 200 words.""
+    trực tiếp làm cho các {topic} chi tiết hơn
+    trả lời tất cả bằng tiếng việt
+    "Nội dung ngắn gọn, xúc tích như một chatbot"
     
   agent: healthier_advice
   output_file: report.md
