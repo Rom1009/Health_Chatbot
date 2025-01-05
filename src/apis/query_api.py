@@ -6,11 +6,6 @@ import faiss
 from sentence_transformers import SentenceTransformer
 import numpy as np
 
-# Load FAISS index and data
-index = faiss.read_index("../../public/dataset/faiss_index.bin")
-chunks_df = pd.read_csv("../../public/dataset/chunks_data.csv")
-embedding_model = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
-
 # Initialize FastAPI
 app = FastAPI()
 
@@ -22,23 +17,6 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     query: str
     # results: List[dict]
-
-# Helper function to search FAISS index
-def search_faiss_index(query: str, top_k: int):
-    # Generate embedding for the query
-    query_embedding = embedding_model.encode(query).astype(np.float32).reshape(1, -1)
-    
-    # Perform search
-    distances, indices = index.search(query_embedding, top_k)
-    
-    # Fetch results from dataframe
-    results = []
-    for dist, idx in zip(distances[0], indices[0]):
-        if idx != -1:  # Ensure valid index
-            result = chunks_df.iloc[idx].to_dict()
-            result["distance"] = float(dist)
-            results.append(result)
-    return results
 
 # Define FastAPI endpoint
 @app.post("/search", response_model=QueryResponse)
