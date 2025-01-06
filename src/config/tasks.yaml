@@ -16,11 +16,14 @@
 
 health_advisor_task:
   description: >
-    {topic} trở nên chi tiết hơn 
+    {topic} trở nên chi tiết, ngắn gọn và loại bỏ các ký hiệu đặc biệt
   expected_output: >
-    trực tiếp làm cho các {topic} chi tiết hơn
-    trả lời tất cả bằng tiếng việt
+    trực tiếp làm cho các {topic} "chi tiết hơn, ngắn gọn và loại bỏ các ký hiệu đặc biệt chỉ còn lại nội dung"
+    trả lời tất cả bằng "tiếng việt, không được có chấm đầu dòng hay gạch đầu dòng và kết thúc câu có ý nghĩa"
     "Nội dung ngắn gọn, xúc tích như một chatbot"
     
   agent: healthier_advice
   output_file: report.md
+
+
+
