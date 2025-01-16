@@ -3,3 +3,5 @@ pip install -qU llama-index
 pip install -qU llama-index-embeddings-huggingface llama-index-llms-groq
 pip install -qU llama-index-evaluation
 pip install spacy
+pip install -qU InstructorEmbedding
+pip install datasets
