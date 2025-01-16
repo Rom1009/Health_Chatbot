@@ -9,6 +9,7 @@ import json
 import warnings
 import random
 import uuid
+from src.RAG.advanced_rag import get_sentence_window_query_engine
 warnings.filterwarnings("ignore")
 
 CHAT_HISTORY_FILE = "public/chat_history.json"
@@ -21,23 +22,26 @@ def vector_embediing():
 
 # ... (Khởi tạo index và query_engine - Đảm bảo đã khởi tạo trước khi vào Streamlit)
 Settings.llm = Groq(
-    model="mixtral-8x7b-32768",
+    model="llama-3.3-70b-versatile",
     api_key=os.environ.get("GROQ_API_KEY"),
 )
 
 Settings.embed_model = vector_embediing()
 
 storage_context = StorageContext.from_defaults(
-    persist_dir = "src/embedding/Test"
+    persist_dir = "src/embedding/sentence_index"
 )
 
 vector_index = load_index_from_storage(
     storage_context, 
 )
 
-query_engine= vector_index.as_query_engine(
-    similarity_top_k = 3,
-)
+# query_engine= vector_index.as_query_engine(
+#     similarity_top_k = 3,
+# )
+
+query_engine = get_sentence_window_query_engine(vector_index)
+
 
 if query_engine is None:
     st.stop()
@@ -50,8 +54,13 @@ def load_chat_history():
     return {}
 
 def save_chat_history(history):
-    with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
-        json.dump(history, f, ensure_ascii=False, indent=4)
+    try:
+        with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history, f, ensure_ascii=False, indent=4)
+    except TypeError as e:
+        print("Error: Unable to serialize the chat history. Details:", e)
+        # Debugging step: print problematic parts
+        print("History contents:", history)
 
 def clear_chat_history():
     if os.path.exists(CHAT_HISTORY_FILE):
@@ -69,25 +78,25 @@ def delete_chat_session(chat_id):
         st.rerun()
 
 def generate_related_questions(bot_response):
-    keywords = [word for word in str(bot_response).split() if len(word) > 3]
-    if not keywords:
-        return []
-    num_questions = min(3, len(keywords))
-    related_questions = []
-    for _ in range(num_questions):
-        random_keyword_index = random.randint(10, min(20,len(keywords)))
-        random_keyword = keywords[random_keyword_index]
-        related_questions.append(f"Tôi muốn biết thêm về {random_keyword}.")
+    # Danh sách từ dừng (stopwords) không mang ý nghĩa
+    stopwords = {"là", "và", "nhưng", "của", "trên", "dưới", "với", "để", "có", "không", "một", "những", "các", "khi"}
+    
+    # Tách đoạn văn thành các từ và loại bỏ từ dừng
+    words = [word.strip(",.") for word in bot_response.split() if len(word) > 3 and word.lower() not in stopwords]
+    
+    # Nếu không có từ nào hợp lệ, trả về câu hỏi mặc định
+    if not words:
+        return ["Tôi có thể hỏi gì khác?"] * 3
 
-    while len(related_questions) < 3 and keywords:
-        random_keyword_index = random.randint(0, min(20,len(keywords)))
-        random_keyword = keywords[random_keyword_index]
-        new_question = f"Bạn có thể giải thích thêm về {random_keyword} không?"
-        if new_question not in related_questions:
-            related_questions.append(new_question)
-    while len(related_questions)<3:
-        related_questions.append("Tôi có thể hỏi gì khác?")
-    return related_questions[:3]
+    # Lấy ngẫu nhiên các từ để tạo câu hỏi
+    related_questions = []
+    for _ in range(3):  # Lấy 3 câu hỏi
+        random_word = random.choice(words)
+        question = f"Bạn có thể giải thích thêm về {random_word} không?"
+        related_questions.append(question)
+        words.remove(random_word)  # Đảm bảo không lặp lại từ
+    
+    return related_questions
 
 def get_or_create_chat_id():
     if "chat_id" not in st.session_state:
@@ -111,7 +120,6 @@ def query_api(query, query_engine):
         query_result = response.json().get("query", [])
         if query_result:
             ans = query_engine.query(query_result)
-            print(ans)
             if ans:
                 most_similar_question = ans.source_nodes[0].node.text if ans.source_nodes else None
                 result = {"topic": most_similar_question}
@@ -211,7 +219,7 @@ if messages: # Only show related queries if there are messages
                 with st.spinner("Đang tìm câu trả lời..."):
                     bot_response = query_api(related_query, query_engine)
 
-                st.session_state.messages.append({"role": "assistant", "content": bot_response})
+                st.session_state.messages.append({"role": "assistant", "content": f"{bot_response}"})
                 with st.chat_message("assistant"):
                     st.markdown(bot_response)
                 st.session_state.chat_history[chat_id] = st.session_state.messages
