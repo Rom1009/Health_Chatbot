@@ -1,1 +1,12 @@
-{}
+{
+    "null": [
+        {
+            "role": "user",
+            "content": "bệnh suy tim "
+        },
+        {
+            "role": "assistant",
+            "content": "Suy tim là một vấn đề sức khỏe nghiêm trọng gây ra thở nhanh và suy hô hấp. Một số bệnh nền có thể gây ra suy tim bao gồm bệnh tim bẩm sinh thường gặp trong tháng đầu sau sinh, sốt thấp cấp, loạn nhịp tim, viêm cơ tim, viêm mủ màng ngoài tim co thắt, viêm nội tâm mạc nhiễm khuẩn, viêm cầu thận cấp, thiếu máu nặng, viêm phổi nặng và suy dinh dưỡng nặng. Bên cạnh đó, suy tim cũng có thể bị thúc đẩy hoặc nặng hơn bởi quá tải dịch, đặc biệt là khi truyền tĩnh mạch dịch lượng lớn."
+        }
+    ]
+}

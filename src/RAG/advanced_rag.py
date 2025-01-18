@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from llama_index.core import Document
-from RAG.preprocessing import preprocessing
+from src.RAG.preprocessing import preprocessing
 from llama_index.core import (
     VectorStoreIndex, 
     Settings, 
