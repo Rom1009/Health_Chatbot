@@ -1,1 +1,12 @@
-{}
+{
+    "null": [
+        {
+            "role": "user",
+            "content": "nhiễm trùng huyết"
+        },
+        {
+            "role": "assistant",
+            "content": "Hạ thân nhiệt thường xảy ra ở những trẻ có tình trạng dinh dưỡng kém và thường đi kèm với hạ đường huyết hoặc nhiễm trùng nghiêm trọng. Chẩn đoán hạ thân nhiệt khi nhiệt độ ở nách dưới 35 độ C hoặc không đo được ở nhiệt kế bình thường. Khi nhiệt độ ở nhiệt kế quá thấp không đọc được, cần phải đo nhiệt độ hậu môn dưới 35,5 độ C hoặc dưới 95,9 độ F để xác định hạ thân nhiệt."
+        }
+    ]
+}
